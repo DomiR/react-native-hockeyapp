@@ -18,6 +18,28 @@ Pod::Spec.new do |s|
 
   s.dependency 'React'
 
+  s.default_subspec   = 'DefaultLib'
+
+  s.subspec 'CrashOnlyLib' do |ss|
+    ss.dependency 'HockeySDK/CrashOnlyLib', '~> 5.0.0'
+  end
+
+  s.subspec 'CrashOnlyExtensionsLib' do |ss|
+    ss.dependency 'HockeySDK/CrashOnlyExtensionsLib', '~> 5.0.0'
+  end
+
+  s.subspec 'DefaultLib' do |ss|
+    ss.dependency 'HockeySDK/DefaultLib', '~> 5.0.0'
+  end
+
+  s.subspec 'AllFeaturesLib' do |ss|
+    ss.dependency 'HockeySDK/AllFeaturesLib', '~> 5.0.0'
+  end
+
+  s.subspec 'FeedbackOnlyLib' do |ss|
+    ss.dependency 'HockeySDK/CrashOnlyLib', '~> 5.0.0'
+  end
+
   s.source_files = 'ios/RNHockeyApp*.{h,m}'
   s.public_header_files = 'ios/RNHockeyApp.h'
 end
