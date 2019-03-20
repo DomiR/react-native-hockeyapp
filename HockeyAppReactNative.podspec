@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.preserve_paths = '*.js'
 
   s.dependency 'React'
+  s.dependency 'HockeySDK', '~> 5.0.0'
 
   s.source_files = 'ios/RNHockeyApp*.{h,m}'
   s.public_header_files = 'ios/RNHockeyApp.h'
