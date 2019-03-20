@@ -1,8 +1,13 @@
 #import "RNHockeyApp.h"
+
 #if __has_include(<React/RCTEventDispatcher.h>)
+
 #import <React/RCTEventDispatcher.h>
+
 #else
+
 #import "RCTEventDispatcher.h"
+
 #endif
 
 static BOOL initialized = NO;
@@ -94,6 +99,7 @@ RCT_EXPORT_METHOD(addMetadata:(NSData*) metadata)
     }
 }
 
+#if HOCKEYSDK_FEATURE_FEEDBACK
 RCT_EXPORT_METHOD(feedback)
 {
     if (initialized == YES) {
@@ -102,6 +108,12 @@ RCT_EXPORT_METHOD(feedback)
         NSLog(@"Not initialized! \n");
     }
 }
+#else
+RCT_EXPORT_METHOD(feedback)
+{
+    NSLog(@"Feedback not included in HockeyApp SDK installation! \n");
+}
+#endif
 
 RCT_EXPORT_METHOD(checkForUpdate)
 {
@@ -129,6 +141,18 @@ RCT_EXPORT_METHOD(trackEvent:(NSString *)eventName)
             NSLog(@"react-native-hockeyapp: An event name must be provided.");
         }
     }
+}
+
+RCT_EXPORT_METHOD(trackEventWithOptionsAndMeasurements:(NSString *)eventName Options:(NSDictionary *)options Measurements:(NSDictionary *)measurements)
+{
+  if (initialized == YES) {
+    if ([eventName length] > 0) {
+      BITMetricsManager *metricsManager = [[BITHockeyManager sharedHockeyManager] metricsManager];
+      [metricsManager trackEventWithName:eventName properties:options measurements:measurements];
+    } else {
+      NSLog(@"react-native-hockeyapp: An event name must be provided.");
+    }
+  }
 }
 
 + (void)deleteMetadataFileIfExists
